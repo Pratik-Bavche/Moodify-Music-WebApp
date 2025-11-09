@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config/apiConfig';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = API_BASE_URL ? `${API_BASE_URL}/api` : '/api';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_URL,
   timeout: 30000, // 30 seconds timeout for streaming operations
 });
 

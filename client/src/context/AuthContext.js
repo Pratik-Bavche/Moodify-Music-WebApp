@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config/apiConfig';
 
 const AuthContext = createContext();
-
-// API base URL - use environment variable or default to proxy
-const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
