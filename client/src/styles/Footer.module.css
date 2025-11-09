@@ -1,0 +1,127 @@
+/* Footer.module.css - recreated to fix missing module error */
+.footer {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.05rem 0 0.05rem 0;
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+    text-align: center;
+    font-size: 0.91rem;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.2rem;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex: 1 1 0;
+    justify-content: flex-start;
+    min-width: 0;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex: 1 1 0;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.copyright {
+    font-size: 0.95em;
+    opacity: 0.92;
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    white-space: nowrap;
+    flex: 0 1 auto;
+    justify-content: center;
+}
+
+.links a,
+.social a {
+    color: #fff;
+    opacity: 0.85;
+    font-size: 1.25em;
+    transition: opacity 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    width: 1.25em;
+    height: 1.25em;
+    justify-content: center;
+}
+
+.links a:hover,
+.social a:hover {
+    opacity: 1;
+    transform: scale(1.18);
+}
+
+.profilePicture {
+    width: 1.25em;
+    height: 1.25em;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: block;
+}
+
+.links a:first-child {
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.links a:first-child svg {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+@media (max-width: 700px) {
+    .footerRow {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0 0.3rem;
+        align-items: stretch;
+    }
+
+    .footer {
+        font-size: 0.83rem;
+        padding: 0.05rem 0 0.03rem 0;
+    }
+
+    .links,
+    .social {
+        justify-content: flex-start;
+        flex: unset;
+        margin-bottom: 0.2rem;
+    }
+
+    .copyright {
+        justify-content: center;
+        flex: unset;
+        margin-bottom: 0.2rem;
+    }
+}

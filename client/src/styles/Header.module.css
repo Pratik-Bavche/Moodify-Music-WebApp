@@ -1,0 +1,139 @@
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.8rem 1.7rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header.nightMode {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 4rem;
+}
+
+.logoBox {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.45rem;
+    border-radius: 12px;
+}
+
+.logoBox:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.icon {
+    font-size: 1.9rem;
+    color: #fff;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+}
+
+.logoBox:hover .icon {
+    transform: rotate(10deg);
+}
+
+.appName {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #fff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    letter-spacing: 1px;
+}
+
+.nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 1.05rem;
+}
+
+.navItem:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navItem.active {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navItem svg {
+    font-size: 1.35rem;
+    transition: all 0.3s ease;
+}
+
+.navItem:hover svg {
+    transform: scale(1.12);
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0.6rem;
+    }
+
+    .nav {
+        gap: 0.5rem;
+    }
+
+    .navItem {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.92rem;
+    }
+
+    .navItem span {
+        display: none;
+    }
+
+    .appName {
+        font-size: 1.2rem;
+    }
+
+    .icon {
+        font-size: 1.2rem;
+    }
+}
