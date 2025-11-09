@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { FaPlay, FaHeart, FaMusic, FaTrash } from 'react-icons/fa';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Player from '../components/Player';
 import YouTubePlayer from '../components/YouTubePlayer';
 import ScrollingText from '../components/ScrollingText';
 import styles from '../styles/FavoritesPage.module.css';
@@ -44,13 +43,6 @@ const FavoritesPage = ({ isNightMode, onNightModeToggle }) => {
     }
   }, []);
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
-
-  const handlePause = () => {
-    setIsPlaying(false);
-  };
 
   const handleNext = () => {
     if (favoriteSongs.length > 0) {

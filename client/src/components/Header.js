@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaMusic, FaHeart, FaSignOutAlt, FaMoon, FaSun, FaHome } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -7,7 +7,6 @@ import styles from '../styles/Header.module.css';
 const Header = ({ onNightModeToggle, isNightMode }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     // Clear any stored auth tokens

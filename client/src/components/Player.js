@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FaPlay, FaPause, FaTimes, FaStepForward, FaStepBackward, FaRedo } from 'react-icons/fa';
 import styles from '../styles/Player.module.css';
-import { motion } from 'framer-motion';
 
 const formatTime = (sec) => {
   if (!sec) return '0:00';

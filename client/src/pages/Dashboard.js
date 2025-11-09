@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaCamera, FaMusic, FaHeart, FaSpinner, FaPlay, FaTimes, FaSearch } from 'react-icons/fa';
+import { FaCamera, FaMusic, FaHeart, FaTimes, FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -17,7 +17,6 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [webcamOpen, setWebcamOpen] = useState(false);
-  const [favorites, setFavorites] = useState([]);
   const [showPlayer, setShowPlayer] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -35,16 +34,6 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
     { name: 'Party', icon: '🎉' }
   ];
 
-  useEffect(() => {
-    loadFavorites();
-  }, []);
-
-  const loadFavorites = () => {
-    const savedFavorites = localStorage.getItem('favorites');
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites));
-    }
-  };
 
   const handleWebcamDetect = (mood) => {
     setSelectedMood(mood);
@@ -80,11 +69,6 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
     navigate('/songs', { state: { mood: selectedMood } });
   };
 
-  const handlePlaySong = (index) => {
-    setCurrentSongIndex(index);
-    setIsPlaying(true);
-    setShowPlayer(true);
-  };
 
   const handleClosePlayer = () => {
     setShowPlayer(false);
@@ -103,24 +87,6 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
     }
   };
 
-  const toggleFavorite = (song) => {
-    const songKey = `${song.title}-${song.artist}`;
-    let newFavorites;
-    
-    if (favorites.includes(songKey)) {
-      newFavorites = favorites.filter(fav => fav !== songKey);
-    } else {
-      newFavorites = [...favorites, songKey];
-    }
-    
-    setFavorites(newFavorites);
-    localStorage.setItem('favorites', JSON.stringify(newFavorites));
-  };
-
-  const isFavorite = (song) => {
-    const songKey = `${song.title}-${song.artist}`;
-    return favorites.includes(songKey);
-  };
 
   const handleSearch = async (query) => {
     setSearchQuery(query);
@@ -154,7 +120,6 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
     });
   };
 
-  const currentSong = recommendedSongs[currentSongIndex];
 
   return (
     <div className={`${styles.bgWrap} ${isNightMode ? styles.nightMode : ''}`}>
@@ -329,7 +294,7 @@ const Dashboard = ({ isNightMode, onNightModeToggle }) => {
 
         {recommendedSongs.length > 0 && showPlayer && (
           <div className={styles.playerContainer}>
-            {currentSong && currentSong.url && currentSong.url.includes('youtube.com') ? (
+            {recommendedSongs[currentSongIndex] && recommendedSongs[currentSongIndex].url && recommendedSongs[currentSongIndex].url.includes('youtube.com') ? (
               <YouTubePlayer
                 songs={recommendedSongs}
                 currentIndex={currentSongIndex}

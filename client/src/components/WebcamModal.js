@@ -103,13 +103,14 @@ const WebcamModal = ({ open, onClose, onDetect }) => {
       setup();
     }
     
+    const videoElement = videoRef.current;
     return () => {
       if (interval) clearInterval(interval);
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
-      if (videoRef.current && videoRef.current.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+      if (videoElement && videoElement.srcObject) {
+        videoElement.srcObject.getTracks().forEach(track => track.stop());
       }
     };
   }, [open, onDetect, onClose]);

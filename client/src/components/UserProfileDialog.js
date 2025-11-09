@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaUser, FaEdit, FaCamera, FaSignOutAlt, FaTimes, FaHeart, FaEnvelope, FaUserCircle, FaTrash } from 'react-icons/fa';
 import { compressImage, validateImageFile, safeLocalStorageSet } from '../utils/imageCompression';
 import { useAuth } from '../context/AuthContext';
@@ -15,13 +15,7 @@ const UserProfileDialog = ({ isOpen, onClose, isNightMode, onProfileUpdate }) =>
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({ username: '', email: '' });
 
-  useEffect(() => {
-    if (isOpen) {
-      loadUserData();
-    }
-  }, [isOpen, currentUser]); // Refresh when user changes
-
-  const loadUserData = () => {
+  const loadUserData = useCallback(() => {
     const username = currentUser?.username || localStorage.getItem('userName') || 'Music Lover';
     const email = currentUser?.email || localStorage.getItem('userEmail') || 'user@moodify.com';
     const profilePic = localStorage.getItem('userProfilePicture');
@@ -29,7 +23,13 @@ const UserProfileDialog = ({ isOpen, onClose, isNightMode, onProfileUpdate }) =>
     
     setUserData({ username, email, profilePicture: profilePic, favorites });
     setEditData({ username, email });
-  };
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadUserData();
+    }
+  }, [isOpen, currentUser, loadUserData]); // Refresh when user changes
 
   const handleProfilePictureChange = async (event) => {
     const file = event.target.files[0];

@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+// API base URL - use environment variable or default to proxy
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -20,10 +23,15 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       // Optionally, fetch user profile from backend
-      fetch('/api/auth/profile', {
+      fetch(`${API_BASE_URL}/api/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Failed to fetch profile');
+          }
+          return res.json();
+        })
         .then(user => {
           setCurrentUser(user);
           setIsAuthenticated(true);
@@ -41,14 +49,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Login failed');
+        const errorData = await res.json().catch(() => ({ message: 'Login failed' }));
+        throw new Error(errorData.message || 'Login failed');
       }
       const data = await res.json();
       localStorage.setItem('token', data.token);
@@ -62,15 +70,16 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: name, email, password }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Signup failed');
+        const errorData = await res.json().catch(() => ({ message: 'Signup failed' }));
+        throw new Error(errorData.message || 'Signup failed');
       }
+      await res.json();
       // After successful signup, log in the user
       return await login(email, password);
     } catch (error) {

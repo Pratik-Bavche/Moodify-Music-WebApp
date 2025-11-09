@@ -30,7 +30,7 @@ const Footer = ({ isNightMode }) => {
       <footer className={`${styles.footer} ${isNightMode ? styles.nightMode : ''}`}>
         <div className={styles.footerRow}>
           <div className={styles.links}>
-            <a href="#" title="Profile" onClick={handleProfileClick}>
+            <button type="button" className={styles.profileButton} title="Profile" onClick={handleProfileClick}>
               {userProfilePicture ? (
                 <img 
                   src={userProfilePicture} 
@@ -40,7 +40,7 @@ const Footer = ({ isNightMode }) => {
               ) : (
                 <FaUser />
               )}
-            </a>
+            </button>
             <a href="https://www.linkedin.com/in/pratik-bavche-b6b696325/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><FaLinkedin /></a>
             <a href="https://facebook.com/pratik_bavche_patil" target="_blank" rel="noopener noreferrer" title="Facebook"><FaFacebookF /></a>
             <a href="https://x.com/Pratik_Bavche" target="_blank" rel="noopener noreferrer" title="Twitter"><FaTwitter /></a>

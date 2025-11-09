@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPlay, FaPause, FaTimes, FaStepForward, FaStepBackward, FaRedo } from 'react-icons/fa';
 import styles from '../styles/Player.module.css';
-import { motion } from 'framer-motion';
 import ScrollingText from './ScrollingText';
 
 const YouTubePlayer = ({ songs, currentIndex, onPlay, onPause, isPlaying, onClose, onNext, onPrev }) => {
-  const [player, setPlayer] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -161,7 +159,6 @@ const YouTubePlayer = ({ songs, currentIndex, onPlay, onPause, isPlaying, onClos
           },
         },
       });
-      setPlayer(ytPlayer);
       playerRef.current = ytPlayer;
     }
 

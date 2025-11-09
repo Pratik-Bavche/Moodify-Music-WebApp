@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { FaPlay, FaPause, FaHeart, FaArrowLeft, FaSpinner, FaMusic } from 'react-icons/fa';
+import { FaPlay, FaPause, FaHeart, FaSpinner, FaMusic } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Player from '../components/Player';
 import YouTubePlayer from '../components/YouTubePlayer';
 import ScrollingText from '../components/ScrollingText';
 import styles from '../styles/SongsPage.module.css';
-import { searchSongs, getAvailableMoods, getTrendingByMood } from '../services/streamingService';
+import { searchSongs, getTrendingByMood } from '../services/streamingService';
 
 function deduplicateSongs(songs) {
   const seen = new Set();
@@ -61,32 +60,14 @@ const SongsPage = ({ isNightMode, onNightModeToggle }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const songsPerPage = 50;
 
-  useEffect(() => {
-    loadFavorites();
-    loadSongs();
-  }, [mood, fromSearch, searchResults]);
-
-  useEffect(() => {
-    // Update displayed songs when songsList changes
-    const startIndex = 0;
-    const endIndex = currentPage * songsPerPage;
-    setDisplayedSongs(songsList.slice(startIndex, endIndex));
-  }, [songsList, currentPage]);
-
-  const loadFavorites = () => {
+  const loadFavorites = useCallback(() => {
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) {
       setFavorites(JSON.parse(savedFavorites));
     }
-  };
+  }, []);
 
-  const loadMoreSongs = () => {
-    setCurrentPage(prev => prev + 1);
-  };
-
-  const hasMoreSongs = displayedSongs.length < songsList.length;
-
-  const loadSongs = async () => {
+  const loadSongs = useCallback(async () => {
     setLoading(true);
     
     try {
@@ -124,7 +105,26 @@ const SongsPage = ({ isNightMode, onNightModeToggle }) => {
       setSongsList([]);
       setLoading(false);
     }
+  }, [mood, fromSearch, searchResults]);
+
+  useEffect(() => {
+    loadFavorites();
+    loadSongs();
+  }, [loadFavorites, loadSongs]);
+
+  useEffect(() => {
+    // Update displayed songs when songsList changes
+    const startIndex = 0;
+    const endIndex = currentPage * songsPerPage;
+    setDisplayedSongs(songsList.slice(startIndex, endIndex));
+  }, [songsList, currentPage]);
+
+  const loadMoreSongs = () => {
+    setCurrentPage(prev => prev + 1);
   };
+
+  const hasMoreSongs = displayedSongs.length < songsList.length;
+
 
   const handlePlaySong = (index) => {
     setCurrentSongIndex(index);
@@ -200,23 +200,6 @@ const SongsPage = ({ isNightMode, onNightModeToggle }) => {
     return favorites.includes(songKey);
   };
 
-  const currentSong = songsList[currentSongIndex];
-
-  const getMoodColor = (moodName) => {
-    const colors = {
-      'Happy': '#ffb300',
-      'Sad': '#1976d2',
-      'Angry': '#d32f2f',
-      'Tired': '#6d4c41',
-      'Natural': '#90a4ae',
-      'Excited': '#ff9800',
-      'Relaxed': '#4caf50',
-      'Romantic': '#e91e63',
-      'Focused': '#3f51b5',
-      'Party': '#ab47bc'
-    };
-    return colors[moodName] || '#764ba2';
-  };
 
   if (loading) {
     return (
