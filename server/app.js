@@ -9,9 +9,25 @@ const streamingRoutes = require('./routes/streamingRoutes');
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' });
+});
+
 // Routes
 app.use('/api/songs', songRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/streaming', streamingRoutes);
+
+// 404 handler for all unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found', path: req.path });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ message: 'Internal server error', error: err.message });
+});
 
 module.exports = app;

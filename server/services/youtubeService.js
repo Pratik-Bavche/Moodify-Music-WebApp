@@ -1,6 +1,5 @@
 const { google } = require('googleapis');
 const ytdlp = require('yt-dlp-exec');
-const axios = require('axios');
 const config = require('../config/config');
 
 // YouTube API configuration
@@ -34,12 +33,9 @@ class YouTubeService {
       }
 
       // Check if YouTube API key is configured
-      console.log('Current API Key:', config.youtube.apiKey);
       if (!config.youtube.apiKey || config.youtube.apiKey === 'your-youtube-api-key-here' || config.youtube.apiKey === 'AIzaSyBvOeTEsU-cXmHjvGprQ6B6H6k6J6k6J6k') {
-        console.log('YouTube API key not configured, using fallback data');
         return this.getFallbackSongs(query, maxResults);
       }
-      console.log('Using real YouTube API key for search');
 
       const response = await youtube.search.list({
         part: 'snippet',
@@ -432,7 +428,6 @@ class YouTubeService {
     try {
       // Check if YouTube API key is configured
       if (!config.youtube.apiKey || config.youtube.apiKey === 'your-youtube-api-key-here' || config.youtube.apiKey === 'AIzaSyBvOeTEsU-cXmHjvGprQ6B6H6k6J6k6J6k') {
-        console.log('YouTube API key not configured, using fallback trending data');
         return this.getFallbackSongs(mood, maxResults);
       }
 
