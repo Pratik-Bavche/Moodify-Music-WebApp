@@ -8,8 +8,9 @@ exports.searchSongs = async (req, res) => {
     if (!query) {
       return res.status(400).json({ message: 'Query parameter is required' });
     }
-
+    console.log(`Received search request for query="${query}" maxResults=${maxResults}`);
     const songs = await youtubeService.searchSongs(query, parseInt(maxResults));
+    console.log(`Search returned ${Array.isArray(songs) ? songs.length : 0} items`);
     if (Array.isArray(songs) && songs.length > 0) {
       return res.json({
         success: true,
@@ -135,3 +136,15 @@ exports.getAvailableMoods = async (req, res) => {
     });
   }
 }; 
+
+// Debug endpoint: report whether a YouTube API key is configured (does NOT return the key)
+exports.getApiKeyStatus = async (req, res) => {
+  try {
+    const config = require('../config/config');
+    const hasKey = !!config.youtube.apiKey && config.youtube.apiKey !== 'your-youtube-api-key-here';
+    res.json({ success: true, hasKey });
+  } catch (error) {
+    console.error('API key status error:', error);
+    res.status(500).json({ success: false, message: 'Failed to get API key status' });
+  }
+};

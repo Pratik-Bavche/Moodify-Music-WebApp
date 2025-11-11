@@ -2,7 +2,8 @@ require('dotenv').config();
 
 module.exports = {
   mongodb: {
-    uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/moodify'
+    // Support either MONGODB_URI or legacy MONGO_URI environment variable
+    uri: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/moodify'
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-this-in-production'

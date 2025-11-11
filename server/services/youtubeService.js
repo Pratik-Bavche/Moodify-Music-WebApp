@@ -33,8 +33,13 @@ class YouTubeService {
       }
 
       // Check if YouTube API key is configured
-      if (!config.youtube.apiKey || config.youtube.apiKey === 'your-youtube-api-key-here' || config.youtube.apiKey === 'AIzaSyBvOeTEsU-cXmHjvGprQ6B6H6k6J6k6J6k') {
+      const hasApiKey = !!config.youtube.apiKey && config.youtube.apiKey !== 'your-youtube-api-key-here';
+      if (!hasApiKey) {
+        console.warn('YouTube API key not configured or is placeholder; using fallback songs');
         return this.getFallbackSongs(query, maxResults);
+      } else {
+        // Debug: log that an API key is present (do not print the key)
+        console.info('YouTube API key detected in config - attempting YouTube search');
       }
 
       const response = await youtube.search.list({
