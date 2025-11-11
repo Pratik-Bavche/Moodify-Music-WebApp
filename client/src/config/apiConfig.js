@@ -1,34 +1,15 @@
-// API Configuration
-// In development, use proxy (empty string)
-// In production, use full backend URL from environment variable
-
+// frontend/src/config/apiConfig.js
 const getApiBaseUrl = () => {
-  // If REACT_APP_API_URL is set, use it (required for production)
-  if (process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
-  }
-  
-  // In development, use proxy (empty string)
+  // if (process.env.REACT_APP_API_URL) {
+  //   return process.env.REACT_APP_API_URL;
+  // }
   if (process.env.NODE_ENV === 'development') {
-    return '';
+    return 'http://localhost:5000/api';
   }
-  
-  // In production without REACT_APP_API_URL set
-  // Try to use same origin (if backend is on same domain)
-  if (typeof window !== 'undefined') {
-    const origin = window.location.origin;
-    console.warn(
-      '⚠️ REACT_APP_API_URL not set in production!\n' +
-      'Please set REACT_APP_API_URL environment variable to your backend URL.\n' +
-      'Example: REACT_APP_API_URL=https://your-backend.com\n' +
-      'Using same origin as fallback: ' + origin
-    );
-    return origin;
-  }
-  
-  // Fallback for SSR or build time
-  return '';
+  // if (typeof window !== 'undefined') {
+  //   return 'https://moodify-music-web-app-server.vercel.app/api';
+  // }
+  return 'http://localhost:5000/api';
 };
 
 export const API_BASE_URL = getApiBaseUrl();
-
